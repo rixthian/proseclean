@@ -1,4 +1,4 @@
-"""texto-limpio: clean hidden characters and chat residue from prose."""
+"""proseclean: clean hidden characters and chat residue from prose."""
 from .core import Report, clean
 
 __all__ = ["clean", "Report"]

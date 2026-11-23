@@ -1,6 +1,6 @@
 import unittest
 
-from texto_limpio import clean
+from proseclean import clean
 
 
 class CleanTests(unittest.TestCase):

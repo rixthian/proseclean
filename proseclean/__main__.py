@@ -1,4 +1,4 @@
-"""Command line interface: ``python -m texto_limpio FILE [options]``."""
+"""Command line interface: ``python -m proseclean FILE [options]``."""
 from __future__ import annotations
 
 import argparse
@@ -11,7 +11,7 @@ from .core import clean
 
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(
-        prog="texto-limpio",
+        prog="proseclean",
         description="Remove hidden characters and chat residue from text files. "
         "The original file is never modified.",
     )

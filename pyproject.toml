@@ -3,16 +3,16 @@ requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "texto-limpio"
+name = "proseclean"
 version = "0.1.0"
-description = "Remove hidden characters and chat residue from prose, and flag typical AI phrasing for human review."
+description = "Manuscript hygiene for authors: remove hidden characters and chat residue from prose, and flag typical AI phrasing for human review."
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
 keywords = ["writing", "text-cleaning", "unicode", "authors", "claude-skill"]
 
 [project.scripts]
-texto-limpio = "texto_limpio.__main__:main"
+proseclean = "proseclean.__main__:main"
 
 [tool.setuptools]
-packages = ["texto_limpio"]
+packages = ["proseclean"]

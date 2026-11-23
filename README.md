@@ -1,4 +1,6 @@
-# texto-limpio
+# ProseClean
+
+*Manuscript hygiene for authors.*
 
 **Keep your prose yours.** A small, free, offline tool that removes hidden characters and chat residue from your writing, and flags typical AI phrasing so *you* decide what stays.
 
@@ -30,9 +32,9 @@ Authors deserve to know exactly what is inside their own text. This tool shows y
 ## Install and use
 
 ```bash
-git clone https://github.com/rixthian/texto-limpio.git
-cd texto-limpio
-python3 -m texto_limpio examples/sample.md
+git clone https://github.com/rixthian/proseclean.git
+cd proseclean
+python3 -m proseclean examples/sample.md
 ```
 
 ```
@@ -58,7 +60,7 @@ Options:
 Use it as a library:
 
 ```python
-from texto_limpio import clean
+from proseclean import clean
 
 text, report = clean(open("chapter1.md", encoding="utf-8").read())
 print(report.changes, report.flags)
@@ -66,7 +68,7 @@ print(report.changes, report.flags)
 
 ## Use it as a Claude skill
 
-The folder [`skills/texto-limpio`](skills/texto-limpio/SKILL.md) contains a ready-made skill. It tells Claude to run this cleaner before delivering any final text, review the flagged phrases *with you*, and keep your own voice.
+The folder [`skills/proseclean`](skills/proseclean/SKILL.md) contains a ready-made skill. It tells Claude to run this cleaner before delivering any final text, review the flagged phrases *with you*, and keep your own voice.
 
 ## Honest limits
 
