@@ -30,7 +30,7 @@ Authors deserve to know exactly what is inside their own text. This tool shows y
 ## Install and use
 
 ```bash
-git clone https://github.com/<your-user>/texto-limpio.git
+git clone https://github.com/rixthian/texto-limpio.git
 cd texto-limpio
 python3 -m texto_limpio examples/sample.md
 ```
