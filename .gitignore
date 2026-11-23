@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+*.clean.md
+*.clean.txt
+!examples/*.md
+build/
+dist/
+*.egg-info/
