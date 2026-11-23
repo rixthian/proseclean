@@ -7,7 +7,7 @@ name = "proseclean"
 version = "0.1.0"
 description = "Manuscript hygiene for authors: remove hidden characters and chat residue from prose, and flag typical AI phrasing for human review."
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 license = { text = "MIT" }
 keywords = ["writing", "text-cleaning", "unicode", "authors", "claude-skill"]
 
