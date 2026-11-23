@@ -1,35 +1,46 @@
-# ProseClean
+<p align="center">
+  <img src="assets/banner.svg" alt="ProseClean: manuscript hygiene for authors" width="100%">
+</p>
 
-*Manuscript hygiene for authors.*
+<p align="center">
+  <a href="https://github.com/rixthian/proseclean/actions/workflows/ci.yml"><img src="https://github.com/rixthian/proseclean/actions/workflows/ci.yml/badge.svg" alt="tests"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-c9953c.svg" alt="MIT license"></a>
+  <img src="https://img.shields.io/badge/python-3.11%2B-3776ab.svg" alt="Python 3.11+">
+  <img src="https://img.shields.io/badge/dependencies-none-2ea44f.svg" alt="No dependencies">
+  <img src="https://img.shields.io/badge/runs-offline-1e293b.svg" alt="Runs offline">
+</p>
 
-**Keep your prose yours.** A small, free, offline tool that removes hidden characters and chat residue from your writing, and flags typical AI phrasing so *you* decide what stays.
+<p align="center">
+  <b>Keep your prose yours.</b><br>
+  A small, free, offline tool that removes hidden characters and chat residue from your writing,<br>
+  and flags typical AI phrasing so <i>you</i> decide what stays.
+</p>
 
-No dependencies. One Python package. Your original file is never touched.
+<p align="center">
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#what-it-cleans">What it cleans</a> ·
+  <a href="#use-it-as-a-library">Library</a> ·
+  <a href="#use-it-as-a-claude-skill">Claude skill</a> ·
+  <a href="#faq">FAQ</a>
+</p>
 
 ---
 
-## Why this exists
+## Why ProseClean
 
-Text copied through chat tools and editors can carry invisible baggage: zero-width characters, odd spaces, hidden Unicode tag characters, broken accents (`â€™`), citation leftovers and template tokens. None of it is visible to a reader, but all of it travels with your manuscript, your blog post or your newsletter.
+Text that passes through chat tools, web editors and copy-paste can pick up invisible baggage: zero-width characters, odd spaces, hidden Unicode tag characters, broken accents (`â€™`), citation leftovers and template tokens. A reader never sees any of it, but all of it travels with your manuscript, your blog post or your newsletter.
 
-Authors deserve to know exactly what is inside their own text. This tool shows you, fixes the mechanical problems, and leaves every creative decision to you.
+Authors deserve to know exactly what is inside their own text. ProseClean shows you, fixes the mechanical problems, and leaves every creative decision to you.
 
-## What it does
+| Principle | What it means |
+|---|---|
+| **Never rewrites your words** | Style is a human decision. Wording is only ever *flagged*. |
+| **Original is sacred** | Output goes to a new `.clean` file. Your source is never modified. |
+| **Transparent** | Every change is counted and reported. |
+| **Zero dependencies** | Pure Python standard library. Nothing to install, nothing phoning home. |
+| **Offline and deterministic** | Same input, same output, no network. |
 
-| Kind | Examples | Action |
-|---|---|---|
-| Invisible characters | zero-width spaces, BOM, soft hyphen, bidirectional overrides, blank filler glyphs | **Removed** |
-| Hidden tag characters | Unicode block `U+E0000–E007F` | **Removed** |
-| Exotic spaces | narrow no-break space, em space, ideographic space | **Normalised** to a plain space |
-| Garbled text | `â€™`, `Ã©` (mojibake) | **Repaired**, only the damaged fragment |
-| Chat residue | `【…】` citations, `oai_citation`, `utm_source=chatgpt.com`, `<think>` blocks, `<\|…\|>` tokens | **Removed** |
-| Typography *(standard level)* | curly quotes, `…`, odd hyphens, `ﬁ` ligatures | **Normalised** |
-| Long dashes | `—` `–` | **Flagged only**: in Spanish and many literary styles they are legitimate |
-| Typical phrases | "cabe destacar", "it is important to note", "delve", "tapestry" | **Flagged only**, never rewritten |
-
-**Design rule:** the tool never rewrites your wording. Style is a human decision.
-
-## Install and use
+## Quick start
 
 ```bash
 git clone https://github.com/rixthian/proseclean.git
@@ -37,7 +48,7 @@ cd proseclean
 python3 -m proseclean examples/sample.md
 ```
 
-```
+```text
 examples/sample.md
   fixed   invisible characters removed: 1
   fixed   typography: U+201C -> '"': 1
@@ -48,44 +59,89 @@ examples/sample.md
   wrote   examples/sample.clean.md
 ```
 
-Options:
+Or install the `proseclean` command:
 
-```
---level light       invisible characters only (keeps your typography)
---level standard    default: also normalises typography
---report-only       show the report, write nothing
---check             exit 1 if a file needs cleaning (for CI or pre-commit)
+```bash
+pip install .
+proseclean chapter1.md chapter2.md
 ```
 
-Use it as a library:
+### Options
+
+| Flag | Effect |
+|---|---|
+| `--level light` | Invisible characters and residue only. Keeps your typography. |
+| `--level standard` | Default. Also normalises typography (curly quotes, ellipsis, odd hyphens). |
+| `--report-only` | Show the report, write nothing. |
+| `--check` | Exit with code `1` if any file needs cleaning. Made for CI and pre-commit. |
+
+## What it cleans
+
+| Category | Examples | Action |
+|---|---|---|
+| Invisible characters | zero-width spaces, BOM, soft hyphen, bidirectional overrides, blank filler glyphs | **Removed** |
+| Hidden tag characters | Unicode block `U+E0000–E007F` | **Removed** |
+| Exotic spaces | narrow no-break space, em space, ideographic space | **Normalised** to a plain space |
+| Garbled text | `â€™`, `Ã©` (mojibake) | **Repaired**, only the damaged fragment |
+| Chat residue | `【…】` citations, `oai_citation`, `utm_source=chatgpt.com`, `<think>` blocks, `<\|…\|>` tokens | **Removed** |
+| Typography *(standard)* | curly quotes, `…`, odd hyphens, `ﬁ` ligatures | **Normalised** |
+| Long dashes | `—` `–` | **Flagged only**: legitimate in Spanish dialogue and many literary styles |
+| Typical phrases | "cabe destacar", "it is important to note", "delve", "tapestry" | **Flagged only**, never rewritten |
+
+## Use it as a library
 
 ```python
 from proseclean import clean
 
 text, report = clean(open("chapter1.md", encoding="utf-8").read())
-print(report.changes, report.flags)
+print(report.changes)   # what was fixed
+print(report.flags)     # what is left for you to review
 ```
 
 ## Use it as a Claude skill
 
-The folder [`skills/proseclean`](skills/proseclean/SKILL.md) contains a ready-made skill. It tells Claude to run this cleaner before delivering any final text, review the flagged phrases *with you*, and keep your own voice.
+[`skills/proseclean`](skills/proseclean/SKILL.md) is a ready-made skill. It tells Claude to run the cleaner before delivering any final text, to walk through flagged phrases *with you*, and to keep your own voice.
 
 ## Honest limits
 
-- It removes hidden characters and visible tics. It **cannot detect or remove statistical watermarks** (for example SynthID-style signals woven into word choice).
+ProseClean does one job and says plainly what it does not do.
+
+- It removes hidden characters and visible tics. It **cannot detect or remove statistical watermarks** (for example signals woven into word choice).
 - It does **not** protect your work from being copied or used to train AI models. For that, look at licensing and opt-out tools.
 - It is deliberately **not** a detector-evasion tool. There is no mass-rewrite mode.
 
-## Credits
+## FAQ
 
-The categories of hidden characters and chat residue are informed by the public documentation of [Olib-AI/llm-cleanup](https://github.com/Olib-AI/llm-cleanup) (MIT), a Rust tool that also handles `.docx`, PDF and metadata. If you need those formats, use it. This project is an independent, minimal Python implementation focused on plain text and Markdown.
+**Will it change my writing?**
+No. It removes characters you cannot see and normalises typography. Anything about word choice is only flagged.
+
+**Why are long dashes only flagged?**
+In Spanish the dialogue dash is part of correct punctuation, and many authors use dashes deliberately. You decide.
+
+**Does it work on Word or PDF files?**
+Not yet. It handles plain text and Markdown. For `.docx`, PDF and metadata, see the project credited below.
+
+**Is anything sent over the network?**
+No. It never opens a connection.
+
+## Project
+
+| | |
+|---|---|
+| [CHANGELOG](CHANGELOG.md) | What changed in each release |
+| [CONTRIBUTING](CONTRIBUTING.md) | How to propose changes and add rules |
+| [SECURITY](SECURITY.md) | How to report a problem privately |
 
 ## Roadmap
 
-- `.docx` support
-- Pre-commit hook
-- Configurable phrase lists per language
+- [ ] `.docx` support
+- [ ] Pre-commit hook
+- [ ] Configurable phrase lists per language
+
+## Credits
+
+The categories of hidden characters and chat residue are informed by the public documentation of [Olib-AI/llm-cleanup](https://github.com/Olib-AI/llm-cleanup) (MIT), a Rust tool that also handles `.docx`, PDF and metadata. If you need those formats today, use it. ProseClean is an independent, minimal Python implementation focused on plain text and Markdown.
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+[MIT](LICENSE)

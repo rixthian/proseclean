@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="320" viewBox="0 0 1280 320" role="img" aria-labelledby="t d">
+  <title id="t">ProseClean</title>
+  <desc id="d">Manuscript hygiene for authors</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f5d98b"/>
+      <stop offset="1" stop-color="#c9953c"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="320" rx="20" fill="url(#bg)"/>
+  <!-- quill-like pen nib mark -->
+  <g transform="translate(150 160)">
+    <circle r="74" fill="none" stroke="url(#gold)" stroke-width="3"/>
+    <path d="M-28 42 C-34 8 -10 -34 34 -46 C30 -8 10 30 -28 42 Z" fill="url(#gold)"/>
+    <path d="M-28 42 L-46 58" stroke="url(#gold)" stroke-width="4" stroke-linecap="round"/>
+    <path d="M-8 18 L20 -20" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <text x="270" y="162" font-family="Georgia, 'Times New Roman', serif" font-size="84" font-weight="700" fill="#f8fafc" letter-spacing="1">ProseClean</text>
+  <text x="274" y="212" font-family="'Helvetica Neue', Arial, sans-serif" font-size="26" fill="#cbd5e1" letter-spacing="4">MANUSCRIPT HYGIENE FOR AUTHORS</text>
+  <rect x="274" y="236" width="120" height="3" rx="1.5" fill="url(#gold)"/>
+</svg>
